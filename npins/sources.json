@@ -1,0 +1,24 @@
+{
+  "pins": {
+    "erosanix": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "emmanuelrosa",
+        "repo": "erosanix"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "6111421b13996e0ca89a20f795f45a20a10429d2",
+      "url": "https://github.com/emmanuelrosa/erosanix/archive/6111421b13996e0ca89a20f795f45a20a10429d2.tar.gz",
+      "hash": "sha256-e2q2DvnB0gKwKWYpz0izcnsUaIsZpRLwtg6xyc6iG8s="
+    },
+    "nixpkgs": {
+      "type": "Channel",
+      "name": "nixpkgs-unstable",
+      "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre941499.ae67888ff7ef/nixexprs.tar.xz",
+      "hash": "sha256-mjLMjTxcEL89npbCV8UrjFbCqIX1Y961btoVoaLNuho="
+    }
+  },
+  "version": 7
+}
