@@ -26,10 +26,8 @@ mkWindowsApp {
   src = nexusArchive;
   dontUnpack = true;
 
-  nativeBuildInputs = [
-    p7zip
-    copyDesktopItems
-  ];
+  nativeBuildInputs = [ copyDesktopItems ];
+  buildInputs = [ p7zip ];
 
   enableMonoBootPrompt = false;
   fileMap = {
