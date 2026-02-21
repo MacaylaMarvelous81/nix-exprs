@@ -1,6 +1,8 @@
 {
   requireFile,
   mkWindowsApp,
+  makeDesktopItem,
+  copyDesktopItems,
   lib,
 
   wine,
@@ -24,7 +26,10 @@ mkWindowsApp {
   src = nexusArchive;
   dontUnpack = true;
 
-  buildInputs = [ p7zip ];
+  nativeBuildInputs = [
+    p7zip
+    copyDesktopItems
+  ];
 
   enableMonoBootPrompt = false;
   fileMap = {
@@ -57,6 +62,16 @@ mkWindowsApp {
 
     runHook postInstall
   '';
+
+  desktopItems = [
+    (makeDesktopItem {
+      name = "sseedit";
+      exec = "sseedit";
+      desktopName = "SSEEdit";
+      genericName = "Bethesda Module Editor";
+      categories = [ "Development" ];
+    })
+  ];
 
   meta = {
     sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
