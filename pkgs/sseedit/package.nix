@@ -1,5 +1,5 @@
 {
-  requireFile,
+  fetchzip,
   mkWindowsApp,
   makeDesktopItem,
   copyDesktopItems,
@@ -9,12 +9,11 @@
   p7zip,
 }:
 let
-  nexusArchive = requireFile {
-    # Original filename is 'SSEEdit 4.1.5f-164-4-1-5f-1714283656.7z', but the name may cannot
-    # contain a space.
-    name = "SSEEdit-4.1.5f-164-4-1-5f-1714283656.7z";
-    url = "https://www.nexusmods.com/skyrimspecialedition/mods/164";
-    hash = "sha256-8kgK8HYoZ5d4bDD6+PB3VyPJ6F8fBRCsEH9omIgbQPA=";
+  xeditGeneric = fetchzip {
+    url = "https://github.com/TES5Edit/TES5Edit/releases/download/xedit-4.1.5f/xEdit.4.1.5f.7z";
+    hash = "sha256-QfdMvgbzJ5cg89OGTAdvOORmShPNTUJySGS4Mwio9n8=";
+    stripRoot = false;
+    nativeBuildInputs = [ p7zip ];
   };
 in
 mkWindowsApp {
@@ -23,7 +22,7 @@ mkWindowsApp {
   pname = "sseedit";
   version = "4.1.5f";
 
-  src = nexusArchive;
+  src = xeditGeneric;
   dontUnpack = true;
 
   nativeBuildInputs = [ copyDesktopItems ];
@@ -32,24 +31,26 @@ mkWindowsApp {
   enableMonoBootPrompt = false;
   fileMap = {
     "$HOME/.local/share/Steam/steamapps/common/Skyrim Special Edition/Data" =
-      "drive_c/sseedit/Skyrim Special Edition Data";
+      "drive_c/file-maps/Skyrim Special Edition Data";
     "$HOME/.local/share/Steam/steamapps/compatdata/489830/pfx/drive_c/users/steamuser/Documents/My Games/Skyrim Special Edition" =
-      "drive_c/sseedit/Skyrim Special Edition Savedata";
+      "drive_c/file-maps/Skyrim Special Edition Savedata";
     "$HOME/.local/share/Steam/steamapps/compatdata/489830/pfx/drive_c/users/steamuser/AppData/Local/Skyrim Special Edition/Plugins.txt" =
-      "drive_c/sseedit/Plugins.txt";
+      "drive_c/file-maps/Plugins.txt";
   };
   winAppInstall = ''
     install_dir="$WINEPREFIX/drive_c/sseedit"
+    map_dir="$WINEPREFIX/drive_c/file-maps"
 
-    mkdir -p "$install_dir"
-    7z x "-o$install_dir" "${nexusArchive}"
+    ln -s "${xeditGeneric}" "$install_dir"
+    mkdir -p "$map_dir"
   '';
 
   winAppRun = ''
-    wine "$WINEPREFIX/drive_c/sseedit/SSEEdit 4.1.5f/SSEEdit.exe" \
-      -D:'C:\sseedit\Skyrim Special Edition Data' \
-      -M:'C:\sseedit\Skyrim Special Edition Savedata\' \
-      -P:'C:\sseedit\Plugins.txt' \
+    wine "$WINEPREFIX/drive_c/sseedit/xTESEdit.exe" \
+      -SSE \
+      -D:'C:\file-maps\Skyrim Special Edition Data' \
+      -M:'C:\file-maps\Skyrim Special Edition Savedata\' \
+      -P:'C:\file-maps\Plugins.txt' \
       "$ARGS"
   '';
 
