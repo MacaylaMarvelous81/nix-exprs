@@ -23,10 +23,8 @@ mkWindowsApp {
   version = "4.1.5f";
 
   src = xeditGeneric;
-  dontUnpack = true;
 
   nativeBuildInputs = [ copyDesktopItems ];
-  buildInputs = [ p7zip ];
 
   enableMonoBootPrompt = false;
   fileMap = {
